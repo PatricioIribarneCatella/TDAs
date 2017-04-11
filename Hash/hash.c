@@ -411,7 +411,7 @@ bool hash_iter_avanzar(hash_iter_t *iter) {
 			iter->posicion_actual = proximo_elemento;
 			iter->lista_iter = lista_iter_crear(iter->hash->datos[iter->posicion_actual]);
 
-		}else{
+		} else {
 
 			iter->al_final = true;
 			return false;
