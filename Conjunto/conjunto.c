@@ -24,9 +24,9 @@ typedef struct conjunto {
  * *****************************************************************/
 
 /* Redimensiona el conjunto. */
-static bool redimensionar_conjunto (conjunto_t* conjunto, size_t tam_nuevo) {
+static bool redimensionar_conjunto(conjunto_t* conjunto, size_t tam_nuevo) {
 
-	void* datos_nuevo = realloc (conjunto->datos, tam_nuevo * sizeof(void*));
+	void* datos_nuevo = realloc(conjunto->datos, tam_nuevo * sizeof(void*));
 
 	if (!datos_nuevo) return false;
 
@@ -53,6 +53,7 @@ conjunto_t* conjunto_crear(int tamanio, cmp_func_t cmp, destruir_dato_t destruir
 	void* *datos = malloc(tamanio * sizeof(void*));
 
 	if (!datos) {
+
 		free(conjunto);
 		return NULL;
 	}
@@ -87,12 +88,9 @@ bool conjunto_agregar(conjunto_t* conjunto, void* dato) {
 	
 	if (conjunto_pertenece(conjunto, dato)) return false;
 
-	if (conjunto->tam == conjunto->cant) {
-
-		if (!redimensionar_conjunto(conjunto, FACTOR * conjunto->tam)) {
-			return false;
-		}
-	}
+	if ((conjunto->tam == conjunto->cant) &&
+		!redimensionar_conjunto(conjunto, FACTOR * conjunto->tam))
+		return false;
 
 	conjunto->datos[conjunto->cant] = dato;
 	(conjunto->cant)++;
@@ -111,9 +109,8 @@ bool conjunto_eliminar(conjunto_t* conjunto, void* dato) {
 
 			void* dato = conjunto->datos[i];
 
-			if (conjunto->destruir_dato) {
+			if (conjunto->destruir_dato)
 				conjunto->destruir_dato(dato);
-			}
 
 			conjunto->datos[i] = conjunto->datos[conjunto->cant-1];
 			(conjunto->cant)--;

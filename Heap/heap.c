@@ -23,9 +23,9 @@ typedef struct heap {
 // Compara dos valores y devuelve la posición del valor máximo.
 static size_t max(void*x, size_t pos1, void* y, size_t pos2, cmp_func_t cmp) {
 
-	if(cmp(x, y) >= 0) {
+	if (cmp(x, y) >= 0) {
 		return pos1;
-	}else{
+	} else {
 		return pos2;
 	}
 }
@@ -126,9 +126,10 @@ heap_t *heap_crear(cmp_func_t cmp, size_t tam) {
 	
 	if (!heap) return NULL;
 
-	heap->datos = calloc(tam*sizeof(void*), sizeof(void*));
+	heap->datos = calloc(tam * sizeof(void*), sizeof(void*));
 	
 	if (!heap->datos) {
+		
 		free(heap);
 		return NULL;
 	}
@@ -179,7 +180,7 @@ bool heap_encolar(heap_t *heap, void *elem) {
 		
 		return false;
 
-	}else {
+	} else {
 
 		heap->datos[heap->cantidad] = elem;
 		upheap(heap->datos, heap->cantidad, heap->cantidad, heap->cmp);
@@ -270,3 +271,4 @@ void heap_sort(void *elementos[], size_t cant, cmp_func_t cmp) {
 		downheap(elementos, 0, i, cmp);
 	}
 }
+

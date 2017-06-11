@@ -31,11 +31,11 @@ vector_t* vector_crear(size_t tam, vector_destruir_dato_t destruir_dato) {
 
 	vector_t* vector = malloc(sizeof(vector_t));
 	
-	if (vector == NULL) return NULL;
+	if (!vector) return NULL;
 
 	vector->datos = malloc(tam * sizeof(void*));
 
-	if (vector->datos == NULL) {
+	if (!vector->datos) {
 
 		free(vector);
 		return NULL;
@@ -52,9 +52,8 @@ bool vector_redimensionar(vector_t *vector, size_t tam_nuevo) {
 
 	void* datos_nuevo = realloc(vector->datos, tam_nuevo * sizeof(void*));
 	
-	if (tam_nuevo > 0 && datos_nuevo == NULL) {
+	if ((tam_nuevo > 0) && (datos_nuevo == NULL))
 		return false;
-	}
 	
 	vector->datos = datos_nuevo;
 	vector->tam = tam_nuevo;
@@ -62,7 +61,7 @@ bool vector_redimensionar(vector_t *vector, size_t tam_nuevo) {
 	return true;
 }
 
-void* vector_obtener_dato(vector_t *vector, size_t pos) {
+void* vector_remover_dato(vector_t *vector, size_t pos) {
 
 	if (!indiceValido(vector, pos)) return NULL;
 
@@ -71,7 +70,7 @@ void* vector_obtener_dato(vector_t *vector, size_t pos) {
 	return vector->datos[pos];
 }
 
-void* vector_obtener(const vector_t *vector, size_t pos) {
+void* vector_obtener_dato(const vector_t *vector, size_t pos) {
 
 	if (!indiceValido(vector, pos)) return NULL;
 	

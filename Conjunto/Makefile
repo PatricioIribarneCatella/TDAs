@@ -1,4 +1,4 @@
-EXEC =  # Nombre del archivo de test
+EXEC = # Nombre del archivo de prueba
 CC = gcc
 CFLAGS = -Wall -Werror -pedantic -std=c99 -g
 BIN = $(filter-out $(EXEC).c, $(wildcard *.c))

@@ -75,13 +75,12 @@ void* cola_desencolar(cola_t *cola) {
 	nodo_cola_t* nodo_siguiente = cola->primero->siguiente;
 	nodo_cola_t* nodo = cola->primero;
 	
-	free (nodo);
+	free(nodo);
 	
 	cola->primero = nodo_siguiente;
 
-	if (cola->primero == NULL) {
+	if (cola->primero == NULL)
 		cola->ultimo = NULL;
-	}
 	
 	return valor;
 }
@@ -94,10 +93,9 @@ void cola_destruir(cola_t *cola, void destruir_dato(void*)) {
 		
 		dato = cola_desencolar(cola);
 		
-		if (destruir_dato) {
+		if (destruir_dato)
 			destruir_dato(dato);
-		}
 	}
 	
-	free (cola);
+	free(cola);
 }

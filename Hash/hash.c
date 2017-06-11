@@ -423,7 +423,7 @@ bool hash_iter_avanzar(hash_iter_t *iter) {
 
 const char* hash_iter_ver_actual(const hash_iter_t *iter) {
 
-	if (iter->al_final)	return NULL;
+	if (iter->al_final) return NULL;
 
 	char* devolucion = NULL;
 

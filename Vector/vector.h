@@ -21,11 +21,11 @@ void vector_destruir(vector_t *vector);
 
 bool vector_redimensionar(vector_t *vector, size_t nuevo_tam);
 
-/*Devuelve el dato en la posición especificada y lo retira del vector*/
+/* Devuelve el dato en la posición especificada */
 void* vector_obtener_dato(vector_t* vector, size_t pos);
 
-/*Devuelve el dato en la posición especificada pero no lo retira del vector*/
-void* vector_obtener(const vector_t *vector, size_t pos);
+/* Devuelve el dato en la posición especificada y lo retira del vector */
+void* vector_remover_dato(const vector_t *vector, size_t pos);
 
 bool vector_guardar(vector_t *vector, size_t pos, void* valor);
 
