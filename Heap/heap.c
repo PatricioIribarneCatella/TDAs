@@ -92,28 +92,21 @@ static void heapify(void* arreglo[], size_t cant, cmp_func_t cmp) {
 	}
 }
 
-// Redimensiona el heap.
-static bool redimensionar_heap(heap_t *heap, size_t tam_nuevo) {
+static bool heap_redimensionar(heap_t *heap, size_t actual, size_t limite, size_t tam_nuevo) {
+
+	if (actual == limite) {
 	
-	void* datos_nuevo = realloc (heap->datos, tam_nuevo * sizeof(void*));
+		void* datos_nuevo = realloc(heap->datos, tam_nuevo * sizeof(void*));
 
-	if (!datos_nuevo) return false;
+		if (!datos_nuevo) return false;
 
-	heap->datos = datos_nuevo;
-	heap->tam = tam_nuevo;
+		heap->datos = datos_nuevo;
+		heap->tam = tam_nuevo;
 
-	return true;
-}
-
-// Redimensiona el heap cuando la proporción entre tamaño del heap y lugar ocupado es del 33%.
-static bool redimensionar(heap_t *heap, int proporcion) {
-
-	if (proporcion == 33) {
-
-		return redimensionar_heap(heap, (heap->tam/2));
+		return true;
 	}
 
-	return false;
+	return true;
 }
 
 /* ******************************************************************
@@ -148,7 +141,7 @@ size_t heap_cantidad(const heap_t *heap) {
 
 bool heap_esta_vacio(const heap_t *heap) {
 
-	return heap->cantidad == 0;
+	return (heap->cantidad == 0);
 }
 
 void* heap_ver_max(const heap_t *heap) {
@@ -159,35 +152,15 @@ void* heap_ver_max(const heap_t *heap) {
 }
 
 bool heap_encolar(heap_t *heap, void *elem) {
-
-	if (heap_esta_vacio(heap)) {
-
-		heap->datos[0] = elem;
-		heap->cantidad = 1;
-		
-		return true;
-
-	} else if (heap->cantidad == heap->tam) {
-		
-		if (redimensionar_heap(heap, FACTOR * heap->tam)) {
-			
-			heap->datos[heap->cantidad] = elem;
-			upheap(heap->datos, heap->cantidad, heap->cantidad, heap->cmp);
-			(heap->cantidad)++;
-			
-			return true;
-		}
-		
+	
+	if (!heap_redimensionar(heap, heap->cantidad, heap->tam, FACTOR * heap->tam))
 		return false;
+	
+	heap->datos[heap->cantidad] = elem;
+	upheap(heap->datos, heap->cantidad, heap->cantidad, heap->cmp);
+	(heap->cantidad)++;
 
-	} else {
-
-		heap->datos[heap->cantidad] = elem;
-		upheap(heap->datos, heap->cantidad, heap->cantidad, heap->cmp);
-		(heap->cantidad)++;
-
-		return true;
-	}
+	return true;
 }
 
 void* heap_desencolar(heap_t *heap) {
@@ -195,21 +168,14 @@ void* heap_desencolar(heap_t *heap) {
 	if (heap_esta_vacio(heap)) return NULL;
 
 	int proporcion = ((heap->cantidad)/(heap->tam))*100;
+	
+	if (!heap_redimensionar(heap, proporcion, 33, heap->tam / FACTOR))
+		return false;
+
 	void* valor = heap->datos[0];
-	
-	if (redimensionar(heap, proporcion)) {
-		
-		(heap->cantidad)--;
-		heap->datos[0] = heap->datos[heap->cantidad];
-		
-		downheap(heap->datos, 0, heap->cantidad, heap->cmp);
-		
-		return valor;
-	}
-	
+
 	(heap->cantidad)--;
 	heap->datos[0] = heap->datos[heap->cantidad];
-	
 	downheap(heap->datos, 0, heap->cantidad, heap->cmp);
 	
 	return valor;
@@ -217,24 +183,16 @@ void* heap_desencolar(heap_t *heap) {
 
 void heap_remover(heap_t* heap) {
 
+	if (heap_esta_vacio(heap)) return;
+
 	int proporcion = ((heap->cantidad)/(heap->tam))*100;
-	
-	if (redimensionar(heap, proporcion)) {
-		
-		(heap->cantidad)--;
-		heap->datos[0] = heap->datos[heap->cantidad];
-		
-		downheap(heap->datos, 0, heap->cantidad, heap->cmp);
-		
+
+	if (!heap_redimensionar(heap, proporcion, 33, heap->tam / FACTOR))
 		return;
-	}
-	
+
 	(heap->cantidad)--;
 	heap->datos[0] = heap->datos[heap->cantidad];
-	
 	downheap(heap->datos, 0, heap->cantidad, heap->cmp);
-	
-	return;
 }
 
 void heap_destruir(heap_t *heap, void destruir_elemento(void *elemento)) {
@@ -251,7 +209,7 @@ void heap_destruir(heap_t *heap, void destruir_elemento(void *elemento)) {
 	}
 	
 	free(heap->datos);
-	free (heap);
+	free(heap);
 }
 
 /* ******************************************************************

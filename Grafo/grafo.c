@@ -69,7 +69,8 @@ grafo_t* grafo_crear(grafo_destruir_dato_t destruir_dato) {
 
 bool grafo_insertar_arista(grafo_t* grafo, char* vertice1, char* vertice2) {
 
-	if (!hash_pertenece(grafo->vertices, vertice1) && !hash_pertenece(grafo->vertices, vertice2)) return false;
+	if (!hash_pertenece(grafo->vertices, vertice1) &&
+		!hash_pertenece(grafo->vertices, vertice2)) return false;
 
 	vertice_t* vertice_aux1 = hash_obtener(grafo->vertices, vertice1);
 	
@@ -101,7 +102,8 @@ bool grafo_insertar_vertice(grafo_t* grafo, char* clave, void* dato) {
 
 bool grafo_borrar_arista(grafo_t* grafo, char* vertice1, char* vertice2) {
 
-	if (!hash_pertenece(grafo->vertices, vertice1) && !hash_pertenece(grafo->vertices, vertice2)) return false;
+	if (!hash_pertenece(grafo->vertices, vertice1) &&
+		!hash_pertenece(grafo->vertices, vertice2)) return false;
 
 	vertice_t* vertice_aux1 = hash_obtener(grafo->vertices, vertice1);
 	
@@ -195,7 +197,9 @@ lista_t* grafo_adyacentes(grafo_t* grafo, const char* vertice) {
 
 lista_t* grafo_vertices(const grafo_t* grafo) {
 
-	if (!grafo_esta_vacio(grafo)) return hash_claves(grafo->vertices);
+	if (!grafo_esta_vacio(grafo))
+		return hash_claves(grafo->vertices);
+	
 	return NULL;
 }
 

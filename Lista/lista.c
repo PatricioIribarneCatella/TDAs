@@ -181,7 +181,7 @@ void *lista_iter_ver_actual(const lista_iter_t *iter) {
 
 void lista_iter_destruir(lista_iter_t *iter) {
 
-	free (iter);
+	free(iter);
 }
 
 /* ******************************************************************
