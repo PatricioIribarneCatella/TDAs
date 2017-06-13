@@ -102,14 +102,13 @@ void *lista_borrar_primero(lista_t *lista) {
 	nodo_lista_t* nodo_siguiente = lista->primero->siguiente;
 	nodo_lista_t* nodo = lista->primero;
 	
-	free (nodo);
+	free(nodo);
 	
 	lista->primero = nodo_siguiente;
 	(lista->largo)--;
 	
-	if (lista->primero == NULL) {
+	if (lista->primero == NULL)
 		lista->ultimo = NULL;
-	}
 	
 	return valor;
 }
@@ -139,7 +138,7 @@ void lista_destruir(lista_t *lista, void destruir_dato(void *)) {
 		}
 	}
 
-	free (lista);
+	free(lista);
 }
 
 /* ******************************************************************
@@ -182,7 +181,7 @@ void *lista_iter_ver_actual(const lista_iter_t *iter) {
 
 void lista_iter_destruir(lista_iter_t *iter) {
 
-	free (iter);
+	free(iter);
 }
 
 /* ******************************************************************
@@ -201,7 +200,7 @@ bool lista_insertar(lista_t *lista, lista_iter_t *iter, void *dato) {
 		lista_insertar_ultimo(lista, dato);
 		iter->actual = lista->ultimo;
 
-	}else {
+	} else {
 		
 		nodo_lista_t *nodo_lista = malloc(sizeof(nodo_lista_t));
 		

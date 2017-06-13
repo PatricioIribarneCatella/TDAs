@@ -40,6 +40,20 @@ typedef struct hash_iter {
  *                    FUNCIONES AUXILIARES
  * *****************************************************************/
 
+//"Rotating Hash" tomada desde http://burtleburtle.net/bob/hash/doobs.html
+static size_t fhash(const char*clave, size_t tam){
+
+	long int hash = 0;
+    long int i = 0;
+
+	while (clave[i] != '\0'){
+
+        hash = ((hash<<4)^(hash>>28)^clave[i]);
+		i++;
+    }
+    return hash%tam;
+}
+
 // Crea un nuevo nodo con la clave y su correspondiente valor asociado.
 static clave_valor_t* hash_crear_nodo(const char* clave, void* dato) {
 
@@ -73,7 +87,7 @@ static void* hash_destuir_nodo(clave_valor_t* nodo) {
 // Verifica si el hash está vacio
 static bool hash_esta_vacio(const hash_t* hash) {
 
-	return hash->cantidad_elementos == 0;
+	return (hash->cantidad_elementos == 0);
 }
 
 // Busca una clave en el Hash.
@@ -183,6 +197,11 @@ hash_t* hash_crear(hash_destruir_dato_t destruir_dato, f_hash_t fhash) {
 	return hash;
 }
 
+hash_t* hash_crear_default(hash_destruir_dato_t destruir_dato) {
+
+	return hash_crear(destruir_dato, fhash);
+}
+
 bool hash_guardar(hash_t *hash, const char *clave, void *dato) {
 
 	if (factor_hash_superado(hash)) {
@@ -250,26 +269,7 @@ void* hash_borrar_dato(hash_t *hash, const char *clave) {
 
 bool hash_borrar(hash_t *hash, const char *clave) {
 
-	void* salida = NULL;
-
-	size_t posicion = hash->fhash(clave, hash->tamanio);
-
-	lista_t* lista = hash->datos[posicion];
-	lista_iter_t* iter = lista_iter_crear(lista);
-
-	if (hash_buscar(hash, clave, iter)) {
-
-		clave_valor_t* aux = lista_borrar(lista, iter);
-		salida = aux->valor;
-		free(aux->clave);
-		free(aux);
-	}
-
-	if (salida != NULL) (hash->cantidad_elementos)--;
-
-	lista_iter_destruir(iter);
-
-	return (salida != NULL);
+	return (hash_borrar_dato(hash, clave) != NULL);
 }
 
 void* hash_obtener(const hash_t *hash, const char *clave) {

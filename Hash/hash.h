@@ -20,9 +20,13 @@ typedef size_t (*f_hash_t)(const char* clave, size_t tam);
 /* ******************************************************************
  *                    PRIMITIVAS DEL HASH
  * *****************************************************************/
-// Crea una tabla de Hash.
+// Crea una tabla de Hash con una función de hash a elección.
 // Post: devuelve una nueva tabla de Hash.
 hash_t *hash_crear(hash_destruir_dato_t destruir_dato, f_hash_t fhash);
+
+// Crea una tabla de Hash.
+// Post: devuelve una nueva tabla de Hash.
+hash_t* hash_crear_default(hash_destruir_dato_t destruir_dato);
 
 // Guarda una nueva clave con su correspodiente valor asociado en el hash.
 // Pre: el hash fue creado.

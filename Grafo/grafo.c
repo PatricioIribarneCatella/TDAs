@@ -43,7 +43,7 @@ static vertice_t* crear_vertice(const char* clave, void* dato) {
 
 	strcpy(vertice->clave, clave);
 	vertice->dato = dato;
-	vertice->adyacentes = hash_crear(NULL);
+	vertice->adyacentes = hash_crear_default(NULL);
 	vertice->cant_adyacentes = 0;
 
 	return vertice;
@@ -59,7 +59,7 @@ grafo_t* grafo_crear(grafo_destruir_dato_t destruir_dato) {
 	
 	if (!grafo) return NULL;
 
-	grafo->vertices = hash_crear(NULL);
+	grafo->vertices = hash_crear_default(NULL);
 	grafo->destruir_dato = destruir_dato;
 	grafo->cantidad_aristas = 0;
 	grafo->cantidad_vertices = 0;
