@@ -44,14 +44,15 @@ typedef struct hash_iter {
 static size_t fhash(const char*clave, size_t tam){
 
 	long int hash = 0;
-    long int i = 0;
+	long int i = 0;
 
 	while (clave[i] != '\0'){
 
-        hash = ((hash<<4)^(hash>>28)^clave[i]);
+		hash = ((hash<<4)^(hash>>28)^clave[i]);
 		i++;
-    }
-    return hash%tam;
+	}
+
+	return hash % tam;
 }
 
 // Crea un nuevo nodo con la clave y su correspondiente valor asociado.
